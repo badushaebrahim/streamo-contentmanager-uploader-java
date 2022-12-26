@@ -5,9 +5,11 @@ import io.minio.errors.*;
 import io.minio.messages.Item;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import streamo.server.uploader.bootstrap.model.common.FileDto;
+import streamo.server.uploader.bootstrap.model.response.DocDTO;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -66,7 +68,7 @@ return data;
         return file.getOriginalFilename()+uuid.toString();
     }
 
-    public InputStream downloadFile(String objName){
+    public DocDTO downloadFile(String objName){
      InputStream stream;
         try {
             stream = minioClient.getObject(GetObjectArgs.builder()
@@ -75,8 +77,9 @@ return data;
                     .build());
         } catch (Exception e) {
             log.error("Happened error when get list objects from minio: ", e);
-            return null;
+            throw new RuntimeException(e);
         }
-        return stream;
+        log.info(objName);
+        return DocDTO.builder().stream(stream).title(objName).build();
     }
 }
