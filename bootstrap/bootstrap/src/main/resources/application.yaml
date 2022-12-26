@@ -7,9 +7,9 @@ spring:
   servlet:
     multipart:
       enabled: true
-      file-size-threshold: 15MB
-      max-file-size: 150MB
-      max-request-size: 25MB
+      file-size-threshold: 15000MB
+      max-file-size: 15000MB
+      max-request-size: 25000MB
 
   data:
     mongodb:
@@ -38,3 +38,9 @@ file:
 
 
 
+minio:
+  data:
+    endpoint: http://172.17.0.2:9000
+    access-key: "zKP2zOrXbZ0BKPEq"
+    secret-key: "gLdnxGxpeZ14du8LtxZJ5zzGkIk8dAcN"
+    bucket: "stramo"
